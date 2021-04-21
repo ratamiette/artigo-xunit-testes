@@ -48,7 +48,9 @@ namespace ArtigoXUnitTestes.UnitTests.Application.Services
         public void ContaExistenteMasNotificacaoNaoFuncionando_ChamadoDocumentoValido_RetornarFalha()
         {
             // Arrange
-            var contaCorrente = ContaCorrenteFactory.GetContaOrigemValida();
+            var fixture = new Fixture();
+            var contaCorrente = fixture.Create<ContaCorrente>();
+
             var respostaNotificacaoViewModel = RespostaNotificacaoViewModelFactory.ObterRespostaFalha();
 
             var contaCorrenteRepositoryMock = new Mock<IContaCorrenteRepository>();
