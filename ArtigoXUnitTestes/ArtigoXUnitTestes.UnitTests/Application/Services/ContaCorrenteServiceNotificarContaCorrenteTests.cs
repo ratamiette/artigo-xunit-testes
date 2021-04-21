@@ -68,5 +68,31 @@ namespace ArtigoXUnitTestes.UnitTests.Application.Services
 
             Assert.False(resposta);
         }
+
+        [Fact]
+        public void ContaExistenteSemDocumentoNotificacaoNaoFuncionando_ChamadoDocumentoNull_RetornarFalha()
+        {
+            // Arrange
+            var contaCorrente = ContaCorrenteFactory.GetContaOrigemSemDocumento();
+            var respostaNotificacaoViewModel = RespostaNotificacaoViewModelFactory.ObterRespostaFalha();
+
+            var contaCorrenteRepositoryMock = new Mock<IContaCorrenteRepository>();
+            var notificacaoServiceMock = new Mock<INotificacaoService>();
+
+            contaCorrenteRepositoryMock.Setup(ccr => ccr.ObterPorDocumento(contaCorrente.Documento)).Returns((ContaCorrente)null);
+            notificacaoServiceMock.Setup(ns => ns.Notificar(contaCorrente)).Returns(respostaNotificacaoViewModel);
+
+            var contaCorrenteService = new ContaCorrenteService(notificacaoServiceMock.Object, contaCorrenteRepositoryMock.Object);
+
+            // Act
+            var resposta = contaCorrenteService.NotificarContaCorrente(contaCorrente.Documento);
+
+            // Assert
+            contaCorrenteRepositoryMock.Verify(ccr => ccr.ObterPorDocumento(contaCorrente.Documento), Times.Once);
+            notificacaoServiceMock.Verify(ns => ns.Notificar(It.IsAny<ContaCorrente>()), Times.Never);
+
+            Assert.False(resposta);
+
+        }
     }
 }

@@ -9,6 +9,11 @@ namespace ArtigoXUnitTestes.UnitTests.Domain.Factories
             return new ContaCorrente("Luis", "12345678910", 1234, 5, 98765, "luis@email.com", "1234-5678");
         }
 
+        public static ContaCorrente GetContaOrigemSemDocumento()
+        {
+            return new ContaCorrente("Raphaela", null, 9000, 2, 82736, "ratamiette@email.com", "9486-1234");
+        }
+
         public static ContaCorrente ObterContaDestinoValida()
         {
             return new ContaCorrente("Felipe", "10987654321", 5678, 9, 43210, "felipe@email.com", "8765-4321");
